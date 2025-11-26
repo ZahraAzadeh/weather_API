@@ -13,8 +13,8 @@ def get_weather(city, api_key):
         print(f"Failed to get weather for {city}. Status code: {response.status_code}")
 
 def main():
-    # Get city and API key from environment variables
-    city = os.getenv("CITY_NAME", "Mashhad")
+    # Get city from environment variable (set in GitHub Actions)
+    city = os.getenv("CITY_NAME", "Mashhad")  # default to Mashhad
     api_key = os.getenv("WEATHER_API_KEY")
 
     if not api_key:
