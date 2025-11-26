@@ -1,18 +1,29 @@
-name: Run Weather Script
+name: Weather API
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # allows manual trigger
+  schedule:
+    - cron: '0 9 * * *'  # optional: runs every day at 09:00 UTC
 
 jobs:
-  run-weather:
+  fetch-weather:
     runs-on: ubuntu-latest
+
+    env:
+      CITY_NAME: Mashhad
+      WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-      - run: pip install requests
-      - name: Run Script
-        env:
-          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
-        run: python weather.py
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run weather script
+        run: python weather_API/weather.py
